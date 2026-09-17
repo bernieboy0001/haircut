@@ -1,0 +1,24 @@
+{
+  "name": "haircut",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bakeoff: Haircut (LTV-managed) vs Naive (plain) paper accounts on one rToken + BTCUSDT perp sleeve.",
+  "license": "MIT",
+  "scripts": {
+    "tick": "tsx src/run.ts",
+    "close-snap": "tsx scripts/record-close.ts",
+    "open-window": "tsx scripts/record-open.ts",
+    "test": "node --import tsx --test \"tests/*.test.ts\"",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@bitget-ai/bitget-agent-sdk": "^3.3.0",
+    "tsx": "^4.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}

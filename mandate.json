@@ -1,0 +1,24 @@
+{
+  "name": "haircut",
+  "quote": "USDT",
+  "equity_start": "10000",
+  "sleeve": {
+    "rtoken": "rNVDAUSDT",
+    "perp": "BTCUSDT",
+    "perp_leverage": 3,
+    "max_rtoken_notional": "4000",
+    "max_perp_notional": "2000"
+  },
+  "ltv": {
+    "initial": 0.78,
+    "call": 0.85,
+    "liq": 0.91,
+    "target_after_delever": 0.80
+  },
+  "shock_btc": -0.05,
+  "beta_rtoken_to_btc": 0.4,
+  "open_window_et": ["09:30", "09:45"],
+  "cash_close_et": "19:20",
+  "max_actions_per_open": 1,
+  "allow_overnight": ["refuse", "repay", "add_collateral", "reduce_perp", "arm"]
+}
