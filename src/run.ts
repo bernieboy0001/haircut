@@ -212,7 +212,7 @@ async function executeHaircut(decision: Decision, mandate: Mandate, ctx: {
       session: ctx.session,
       action: "ARM",
       symbol: mandate.sleeve.rtoken,
-      px: decision.ladder[0],
+      px: ctx.rtokenMid,
       qty: 0,
       notional: Number(mandate.sleeve.max_rtoken_notional),
       equity: ctx.equity,
