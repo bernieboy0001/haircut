@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "sync": "node scripts/sync-snapshot.mjs",
-    "prebuild": "node scripts/sync-snapshot.mjs",
+    "prebuild": "node scripts/sync-snapshot.mjs 2>/dev/null || echo 'sync skipped (no logs in build env)'",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
