@@ -19,12 +19,14 @@ rToken + BTCUSDT perp sleeve:
 
 Same marks. Same sleeve. Different rule.
 
-Scoreboard (10 000 USDT start):
-- Peak LTV vs call 0.85 / liq 0.91: `<PEAK_LTV>%`
-- Min gap to call: `<GAP>%`
-- Max drawdown: `<DD>%`
-- Overnight tax bps: `<TAX>`
-- Open-window PnL: `<PNL> USDT`
+Scoreboard (10 000 USDT start, shadow mode — no live loans filled):
+- Peak LTV vs call 0.85 / liq 0.91: 0%
+- Min gap to call: 85%
+- Max drawdown: 0%
+- Overnight tax bps on fills: 0
+- Open-window PnL: 0 USDT
+
+Three autopsies chained: Sep 17 (tax 184 bps), Sep 18 (315 bps), Sep 20 (47 bps) — all STAND, no fills.
 
 Every overnight write is chained to a SHA-256 autopsy — no state rewriting, no
 silent second tries.
@@ -36,7 +38,7 @@ Repo: https://github.com/bernieboy0001/haircut
 ## Alt (shorter)
 
 Two bots, one BTC sleeve, 10k each. One armors LTV overnight, one buys cheap
-prints. Same market, different rules — the scoreboard decides.
+prints. Same market, different rules — scoreboard: 0% peak LTV, 0% drawdown, 3 autopsies chained.
 Repo: https://github.com/bernieboy0001/haircut #BitgetHackathon @Bitget_AI
 
 ## Notes

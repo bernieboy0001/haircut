@@ -22,6 +22,15 @@ Most crypto-lending risk management is reactive. Haircut proves that determinist
 - **Overnight tax bps** paid on fills
 - **Open-window PnL** during the 09:30–09:45 ET firing window
 
+## Settlement (2026-09-20)
+
+Run in shadow mode (no live cryptoloans module). All three autopsies STAND — no positions filled:
+- Peak LTV: 0% (both books)
+- Max drawdown: 0%
+- Overnight tax on fills: 0 bps
+- Open-window PnL: 0 USDT
+- Autopsy chain: 2026-09-17 (184 bps), 2026-09-18 (315 bps), 2026-09-20 (47 bps)
+
 ## Constraints
 
 - One rToken + BTCUSDT perp. No second stock.
