@@ -4,10 +4,10 @@ import { REPO_URL } from '../content'
 import { useTheme } from '../lib/useTheme'
 
 const NAV = [
-  { href: '#sleeve', label: 'The sleeve' },
-  { href: '#rules', label: 'The rules' },
-  { href: '#clock', label: 'The clock' },
-  { href: '#scoreboard', label: 'Scoreboard' },
+  { to: '/#sleeve', label: 'The sleeve' },
+  { to: '/#rules', label: 'The rules' },
+  { to: '/#clock', label: 'The clock' },
+  { to: '/dashboard', label: 'Scoreboard' },
 ]
 
 export default function Header() {
@@ -16,22 +16,22 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-ink/90 backdrop-blur-md rule-x">
       <div className="h-box flex h-14 items-center justify-between">
-        <a href="#top" className="flex items-baseline gap-2">
+        <Link to="/" className="flex items-baseline gap-2" aria-label="Haircut home">
           <span className="font-mono text-[15px] font-semibold tracking-tight text-bone">
             haircut<span className="text-blood">.</span>
           </span>
           <span className="eyebrow hidden sm:inline">ltv·mgmt</span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
           {NAV.map((n) => (
-            <a
-              key={n.href}
-              href={n.href}
+            <Link
+              key={n.to}
+              to={n.to}
               className="text-[13px] text-dim transition-colors hover:text-bone"
             >
               {n.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
