@@ -20,6 +20,7 @@ Haircut actively manages LTV through the night; Naive just buys the overnight pr
 | `logs/naive.jsonl` | Naive's full execution ledger. |
 | `logs/autopsies/` | One JSON file per autopsied day. Each contains the hash chain lock. |
 | `out/bakeoff.md` | Scoreboard. Rebuilt after every meaningful action. |
+| `web/` | **Dashboard** (`/dashboard`) — live equity duel, LTV band bar, autopsy chain, session ledger. Frozen snapshot at build via `npm run sync`. |
 | `scripts/` | Shell/TS entry points: `check-hub.sh`, `record-close.ts`, `record-open.ts` |
 
 ---
@@ -49,6 +50,13 @@ npm run tick                 # single tick
 npm run close-snap           # cash-close snapshot
 npm run open-window          # first open-window tick + autopsy
 npm run typecheck            # TypeScript check
+
+# Dashboard (optional)
+cd web
+npm install
+npm run sync                 # freeze logs → src/data/snapshot.json
+npm run dev                  # live preview at localhost:5173
+npm run build                # production build to dist/
 ```
 
 **Env keys — never committed:**

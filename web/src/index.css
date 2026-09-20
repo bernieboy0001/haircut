@@ -1,0 +1,410 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Theme tokens. Default (no [data-theme] / [data-theme="dark"]) is the dark
+   "risk desk" look; [data-theme="light"] overrides the same variables.
+   Tailwind utilities are defined against var(--color-*), so flipping the
+   variables re-themes the whole page with zero class changes.
+---------------------------------------------------------------------------- */
+:root, [data-theme="dark"] {
+  --bg: #0a0a0b;
+  --bg-panel: #101113;
+  --bg-panel-2: #16181b;
+  --line: #202328;
+  --line-soft: #1a1d21;
+  --text: #f2f1ec;       /* bone */
+  --text-2: #a6a6a6;     /* stone */
+  --text-3: #6d7279;     /* dim */
+  --ghost: #3c4046;
+  --blood: #e4573d;
+  --blood-dark: #a83825;
+  --ledger: #3dce97;
+  --sheen: rgba(242, 241, 236, 0.08);
+}
+
+[data-theme="light"] {
+  --bg: #f6f5f1;
+  --bg-panel: #ffffff;
+  --bg-panel-2: #efeee9;
+  --line: #d8d7d1;
+  --line-soft: #e3e2dc;
+  --text: #1a1c1f;
+  --text-2: #565b63;
+  --text-3: #7d828a;
+  --ghost: #c0c3c8;
+  --blood: #c93a26;
+  --blood-dark: #a02f1f;
+  --ledger: #0e9466;
+  --sheen: rgba(26, 28, 31, 0.06);
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --color-ink: var(--bg);
+  --color-panel: var(--bg-panel);
+  --color-panel-2: var(--bg-panel-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-bone: var(--text);
+  --color-stone: var(--text-2);
+  --color-dim: var(--text-3);
+  --color-ghost: var(--ghost);
+  --color-blood: var(--blood);
+  --color-blood-dark: var(--blood-dark);
+  --color-ledger: var(--ledger);
+
+  --tracking-wide-2: 0.22em;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-float: float 7s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+  --animate-tape: tape 32s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--ledger) 55%, transparent); }
+  50% { opacity: 0.65; box-shadow: 0 0 0 5px color-mix(in srgb, var(--ledger) 0%, transparent); }
+}
+
+@keyframes tape {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@utility font-nums {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+@utility rule-x {
+  border-top-width: 1px;
+  border-color: var(--color-line);
+}
+
+@utility h-box {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-ink text-bone font-sans antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background: var(--blood);
+    color: var(--text);
+  }
+}
+
+/* Live tape ticker — two identical halves, translateX(-50%) loops seamlessly. */
+.tape-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  will-change: transform;
+  animation: tape 30s linear infinite;
+}
+
+.tape-track:hover {
+  animation-play-state: paused;
+}
+
+.tape-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 96px;
+  pointer-events: none;
+}
+
+.tape-fade-l {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-panel), transparent);
+}
+
+.tape-fade-r {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-panel), transparent);
+}
+
+.tape-item {
+  display: inline-flex;
+  align-items: center;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+}
+
+/* Dashboard — Swiss Pulse atmosphere: column grid-lines + ghost numerals.
+   One accent (blood), neutrals tinted toward it, hairline rules throughout. */
+.dash-grid {
+  background-image: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(100% / 12 - 1px),
+    color-mix(in srgb, var(--line) 70%, transparent) calc(100% / 12 - 1px),
+    color-mix(in srgb, var(--line) 70%, transparent) calc(100% / 12)
+  );
+}
+
+/* Dashboard kickers — bone, heavier, direct. */
+.eyebrow-hard {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.ghost-num {
+  position: absolute;
+  top: -3.4rem;
+  right: 0;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 13rem;
+  line-height: 1;
+  color: var(--ghost);
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Equity fill bars — data-in-motion: every number carries visual weight. */
+.eq-bar {
+  height: 10px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.eq-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fill-ledger {
+  background: var(--ledger);
+}
+
+.fill-bone {
+  background: var(--text-3);
+}
+
+/* LTV band — pure CSS scale, no chart library, no gridlines, no legend. */
+.band {
+  position: relative;
+  height: 84px;
+}
+
+.band-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 8px;
+  height: 4px;
+  background: var(--text-3);
+}
+
+.band-mark {
+  position: absolute;
+  top: 8px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.band-tick {
+  width: 3px;
+  height: 20px;
+  margin-top: -8px;
+}
+
+.tick-dim {
+  background: var(--text-3);
+}
+
+.tick-ledger {
+  background: var(--ledger);
+}
+
+.tick-blood {
+  background: var(--blood);
+}
+
+.band-label {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.band-peak {
+  position: absolute;
+  top: 2px;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%) rotate(45deg);
+  border: 2px solid var(--bg);
+}
+
+.peak-h {
+  background: var(--blood);
+}
+
+.peak-n {
+  background: var(--text);
+}
+
+/* Ledger + action badges. */
+.ledger th {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-2);
+}
+
+.ledger thead tr {
+  border-bottom: 2px solid var(--text-3);
+}
+
+.ledger td {
+  font-size: 13px;
+}
+
+.ledger-row {
+  transition: background-color 0.2s ease;
+}
+
+.ledger-row:hover {
+  background: var(--bg-panel-2);
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+}
+
+.badge-hot {
+  color: var(--bg);
+  background: var(--blood);
+  border-color: var(--blood);
+}
+
+.badge-arm {
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.badge-calm {
+  color: var(--text-2);
+  border-color: var(--text-3);
+}
+
+/* Scroll-triggered reveal — the "hidden until in view" state lives OUTSIDE
+   `.transition-all` so opacity/transform swap is always animatable. */
+.reveal {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Hairline sweep on hover for buttons/links with the .sheen class. */
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-110%);
+  background: linear-gradient(100deg, transparent 20%, var(--sheen) 50%, transparent 80%);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sheen:hover::after {
+  transform: translateX(110%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .tape-track {
+    animation: none;
+  }
+
+  .eq-fill {
+    transition: none;
+  }
+}
