@@ -31,7 +31,8 @@ Most crypto-lending risk management is reactive. Haircut proves that determinist
 
 ## Materials
 
-- **GitHub**: public repository with runnable README
+- **GitHub**: https://github.com/bernieboy0001/haircut
+- **Dashboard**: live at `https://bernieboy0001.github.io/haircut/` (or deploy `web/dist/`)
 - **Paper JSONL**: `logs/haircut.jsonl`, `logs/naive.jsonl`, `logs/events.jsonl`
 - **Scoreboard**: `out/bakeoff.md`
 - **60-second video**: `Demo.mp4` (or live recording)

@@ -1,7 +1,9 @@
 # X post — draft
 
-Post at FINAL submission (after WP9, Mon 09:45 ET), once numbers are real.
-`<REPO_URL>` and `<...>` are placeholders until then.
+Post at FINAL submission (after Mon 09:45 ET settlement), once numbers are real.
+
+Repo: https://github.com/bernieboy0001/haircut
+Dashboard: https://bernieboy0001.github.io/haircut/
 
 ## Main post
 
@@ -27,7 +29,7 @@ Scoreboard (10 000 USDT start):
 Every overnight write is chained to a SHA-256 autopsy — no state rewriting, no
 silent second tries.
 
-Repo: `<REPO_URL>`
+Repo: https://github.com/bernieboy0001/haircut
 
 #BitgetHackathon @Bitget_AI
 
@@ -35,7 +37,7 @@ Repo: `<REPO_URL>`
 
 Two bots, one BTC sleeve, 10k each. One armors LTV overnight, one buys cheap
 prints. Same market, different rules — the scoreboard decides.
-Repo: `<REPO_URL>` #BitgetHackathon @Bitget_AI
+Repo: https://github.com/bernieboy0001/haircut #BitgetHackathon @Bitget_AI
 
 ## Notes
 
