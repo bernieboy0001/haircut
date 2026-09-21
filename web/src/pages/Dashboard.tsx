@@ -130,10 +130,10 @@ function EquityDuel({ h, n }: { h: BookSummary; n: BookSummary }) {
   ]
   return (
     <div className="grid gap-px border border-line bg-line md:grid-cols-2">
-      {books.map((b, i) => {
+      {books.map((b) => {
         const dd = ((b.s.equity - START) / START) * 100
         return (
-          <Reveal key={b.name} delay={i * 110} className="bg-panel">
+          <Reveal key={b.name} className="bg-panel">
             <div className="p-7 sm:p-9">
               <p className="eyebrow-hard">{b.name} · equity</p>
               <p className="mt-3">
@@ -215,8 +215,8 @@ function Trio({ h, n }: { h: BookSummary; n: BookSummary }) {
   ]
   return (
     <div className="grid gap-px border border-line bg-line sm:grid-cols-3">
-      {cells.map((c, i) => (
-        <Reveal key={c.label} delay={i * 100} className="bg-panel">
+      {cells.map((c) => (
+        <Reveal key={c.label} className="bg-panel">
           <div className="p-7">
             <p className="eyebrow-hard">{c.label}</p>
             <p className="mt-3">
@@ -284,7 +284,7 @@ function AutopsyChain({ autopsies, lastHash }: { autopsies: Autopsy[]; lastHash:
   return (
     <div className="grid gap-px border border-line bg-line md:grid-cols-2">
       {autopsies.map((a, i) => (
-        <Reveal key={a.date} delay={i * 110} className="bg-panel">
+        <Reveal key={a.date} className="bg-panel">
           <div className="p-7">
             <div className="flex items-center justify-between">
               <p className="font-mono text-[15px] font-semibold text-bone">{a.date}</p>

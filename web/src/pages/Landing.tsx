@@ -8,7 +8,7 @@ import { useCountUp } from '../lib/useCountUp'
 import { mandates, threeJobs, sessions, scoreboardMetrics } from '../content'
 
 function Stat({ target, suffix = '', className = '' }: { target: number; suffix?: string; className?: string }) {
-  const { ref, value } = useCountUp(target, { decimals: suffix === '%' ? 0 : 0 })
+  const { ref, value } = useCountUp(target, { decimals: 0 })
   return (
     <span ref={ref} className={`font-nums font-mono ${className}`}>
       {suffix === 'USDT' ? Math.round(value).toLocaleString() : value}
@@ -23,13 +23,13 @@ function Hero() {
       <div className="h-box pb-16 pt-16 sm:pt-20">
         <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr]">
           <div>
-            <Reveal delay={0}>
+            <Reveal>
               <div className="flex items-center gap-3">
                 <span className="eyebrow">Agentic LTV risk · paper bake-off</span>
                 <span className="hidden h-px w-8 bg-line sm:block" />
               </div>
             </Reveal>
-            <Reveal delay={90}>
+            <Reveal>
               <h1
                 id="hero-title"
                 className="mt-6 max-w-xl text-[40px] font-semibold leading-[1.08] tracking-tight text-bone sm:text-[56px]"
@@ -38,14 +38,14 @@ function Hero() {
                 <span className="text-blood">liquidate you</span>.
               </h1>
             </Reveal>
-            <Reveal delay={180}>
+            <Reveal>
               <p className="mt-6 max-w-md text-[15px] leading-relaxed text-stone">
                 Haircut manages loan-to-value risk through the night on a single
                 rToken + BTCUSDT perp sleeve — projecting shocks, sizing delevers,
                 and letting a deterministic engine make every call.
               </p>
             </Reveal>
-            <Reveal delay={270} className="mt-9 flex flex-wrap items-center gap-4">
+            <Reveal className="mt-9 flex flex-wrap items-center gap-4">
               <Link
                 to="/dashboard"
                 className="sheen group inline-flex items-center gap-2 bg-bone px-5 py-3 font-mono text-[13px] uppercase tracking-[0.12em] text-ink transition-colors hover:bg-blood hover:text-bone"
@@ -63,7 +63,7 @@ function Hero() {
             </Reveal>
           </div>
 
-          <Reveal delay={220} from="right" duration={900}>
+          <Reveal>
             <div className="animate-float border border-line bg-panel">
               <div className="flex items-center justify-between border-b border-line-soft px-5 py-3">
                 <p className="eyebrow">Mandate card</p>
@@ -148,8 +148,8 @@ function Sleeve() {
       </Reveal>
 
       <div className="mt-10 grid gap-px border border-line bg-line md:grid-cols-3">
-        {threeJobs.map((j, i) => (
-          <Reveal key={j.no} delay={i * 110}>
+        {threeJobs.map((j) => (
+          <Reveal key={j.no}>
             <div className="group h-full bg-panel p-7 transition-colors duration-300 hover:bg-panel-2">
               <p className="font-nums font-mono text-[12px] text-blood transition-transform duration-300 group-hover:-translate-y-0.5">
                 {j.no}
@@ -190,7 +190,7 @@ function Rules() {
       </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <Reveal from="left" duration={750}>
+        <Reveal>
           <div className="h-box w-full border border-line bg-panel">
             <div className="flex items-center justify-between border-b border-line-soft px-7 py-4">
               <p className="font-mono text-[15px] font-semibold text-bone">Haircut</p>
@@ -209,7 +209,7 @@ function Rules() {
           </div>
         </Reveal>
 
-        <Reveal from="right" duration={750} delay={90}>
+        <Reveal>
           <div className="h-box w-full border border-line bg-panel">
             <div className="flex items-center justify-between border-b border-line-soft px-7 py-4">
               <p className="font-mono text-[15px] font-semibold text-bone">Naive</p>
@@ -245,8 +245,8 @@ function Clock() {
       </div>
 
       <div className="mt-10 grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
-        {sessions.map((s, i) => (
-          <Reveal key={s.name} delay={i * 100} duration={650}>
+        {sessions.map((s) => (
+          <Reveal key={s.name}>
             <div className="group h-full bg-panel p-6 transition-colors duration-300 hover:bg-panel-2">
               <p className="font-mono text-[13px] font-semibold text-bone">{s.name}</p>
               <p className="font-nums mt-1 font-mono text-[11px] text-blood">{s.window}</p>
@@ -280,7 +280,7 @@ function Scoreboard() {
         </div>
       </Reveal>
 
-      <Reveal delay={140}>
+      <Reveal>
         <div className="mt-10 overflow-x-auto border border-line">
           <table className="w-full min-w-[640px] border-collapse text-left">
             <thead>
@@ -292,20 +292,20 @@ function Scoreboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-line-soft bg-ink">
-              {scoreboardMetrics.map((m, i) => (
+{scoreboardMetrics.map((m, idx) => (
                 <tr key={m.label} className="group transition-colors hover:bg-panel">
                   <td className="px-6 py-4">
                     <p className="font-mono text-[13px] font-medium text-bone">{m.label}</p>
                     <p className="mt-0.5 text-[11px] text-dim">{m.hint}</p>
                   </td>
                   <td className="px-6 py-4 font-nums font-mono text-[16px] text-bone">
-                    {i === scoreboardMetrics.length - 1 ? <Stat target={0} suffix=" USDT" /> : <Stat target={0} suffix="%" />}
+                    {idx === scoreboardMetrics.length - 1 ? <Stat target={0} suffix=" USDT" /> : <Stat target={0} suffix="%" />}
                   </td>
                   <td className="px-6 py-4 font-nums font-mono text-[16px] text-bone">
-                    {i === scoreboardMetrics.length - 1 ? '0.00 USDT' : '0%'}
+                    {idx === scoreboardMetrics.length - 1 ? '0.00 USDT' : '0%'}
                   </td>
                   <td className="px-6 py-4 font-nums font-mono text-[12px] text-dim">
-                    {i === 0 ? 'call 85 · liq 91' : '—'}
+                    {idx === 0 ? 'call 85 A� liq 91' : '�?"'}
                   </td>
                 </tr>
               ))}
@@ -313,7 +313,7 @@ function Scoreboard() {
           </table>
         </div>
       </Reveal>
-      <Reveal delay={220}>
+      <Reveal>
         <p className="mt-4 font-nums font-mono text-[11px] uppercase tracking-[0.14em] text-dim">
           First autopsy lands 09:30–09:45 ET after the live open window · settles Mon 09:30–09:45 ET
         </p>
@@ -326,7 +326,7 @@ function Disclosure() {
   return (
     <section className="h-box rule-x py-14">
       <div className="grid gap-8 md:grid-cols-2">
-        <Reveal from="left">
+        <Reveal>
           <div className="flex gap-4">
             <ShieldCheck size={20} strokeWidth={1.5} className="mt-0.5 shrink-0 text-blood" />
             <div>
@@ -340,7 +340,7 @@ function Disclosure() {
             </div>
           </div>
         </Reveal>
-        <Reveal from="right" delay={90}>
+        <Reveal>
           <div className="flex gap-4">
             <div className="mt-0.5 font-mono text-[15px] text-blood">#</div>
             <div>

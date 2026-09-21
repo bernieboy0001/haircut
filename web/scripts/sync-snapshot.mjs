@@ -1,6 +1,7 @@
 // sync-snapshot.mjs — freeze engine state into src/data/snapshot.json.
 // Run: `npm run sync` (also runs automatically as `prebuild`).
 // No dependencies. The dashboard renders this file; no backend involved.
+// In build env (no logs): PRESERVES existing committed snapshot.json instead of writing empty data.
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -8,6 +9,7 @@ import { fileURLToPath } from 'node:url'
 const here = dirname(fileURLToPath(import.meta.url))
 const root = join(here, '..', '..')
 const outDir = join(here, '..', 'src', 'data')
+const outFile = join(outDir, 'snapshot.json')
 
 function readLines(path) {
   if (!existsSync(path)) return []
@@ -16,22 +18,14 @@ function readLines(path) {
     .map((l) => l.trim())
     .filter(Boolean)
     .map((l) => {
-      try {
-        return JSON.parse(l)
-      } catch {
-        return null
-      }
+      try { return JSON.parse(l) } catch { return null }
     })
     .filter(Boolean)
 }
 
 function readJson(path, fallback = null) {
   if (!existsSync(path)) return fallback
-  try {
-    return JSON.parse(readFileSync(path, 'utf8'))
-  } catch {
-    return fallback
-  }
+  try { return JSON.parse(readFileSync(path, 'utf8')) } catch { return fallback }
 }
 
 function summarize(rows) {
@@ -72,21 +66,39 @@ const ledger = [...haircutRows, ...naiveRows]
   .slice(-14)
   .reverse()
 
-const snapshot = {
-  generatedAt: new Date().toISOString(),
-  haircut: summarize(haircutRows),
-  naive: summarize(naiveRows),
-  autopsies,
-  ledger,
-  ticket: readJson(join(root, 'state', 'ticket.json')),
-  lastHash: existsSync(join(root, 'state', 'last_hash.txt'))
-    ? readFileSync(join(root, 'state', 'last_hash.txt'), 'utf8').trim()
-    : null,
-  hasAutopsy: autopsies.length > 0,
+// If no logs found (build env), PRESERVE existing committed snapshot.json instead of writing empty data.
+const hasLogs = haircutRows.length > 0 || naiveRows.length > 0 || autopsies.length > 0
+let snapshot
+
+if (!hasLogs && existsSync(outFile)) {
+  console.log('No logs in build env — preserving existing snapshot.json')
+  snapshot = readJson(outFile, {
+    generatedAt: new Date().toISOString(),
+    haircut: null,
+    naive: null,
+    autopsies: [],
+    ledger: [],
+    ticket: null,
+    lastHash: null,
+    hasAutopsy: false,
+  })
+} else {
+  snapshot = {
+    generatedAt: new Date().toISOString(),
+    haircut: summarize(haircutRows),
+    naive: summarize(naiveRows),
+    autopsies,
+    ledger,
+    ticket: readJson(join(root, 'state', 'ticket.json')),
+    lastHash: existsSync(join(root, 'state', 'last_hash.txt'))
+      ? readFileSync(join(root, 'state', 'last_hash.txt'), 'utf8').trim()
+      : null,
+    hasAutopsy: autopsies.length > 0,
+  }
 }
 
 mkdirSync(outDir, { recursive: true })
-writeFileSync(join(outDir, 'snapshot.json'), JSON.stringify(snapshot, null, 2) + '\n')
+writeFileSync(outFile, JSON.stringify(snapshot, null, 2) + '\n')
 console.log(
   `snapshot: haircut=${haircutRows.length} rows, naive=${naiveRows.length} rows, autopsies=${autopsies.length}`,
 )

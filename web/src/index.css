@@ -383,21 +383,20 @@
   transform: translateX(110%);
 }
 
+/* Static — all content visible immediately. No reveal animations. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-static {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 
   .tape-track {
